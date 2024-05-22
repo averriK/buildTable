@@ -1,10 +1,10 @@
 #' Render a table with specified formatting options
 #'
 #' This function renders a table using the specified library and formatting options.
-#' It supports three libraries: flebuildTable, gt, and kable.
+#' It supports three libraries: flextable, gt, and kable.
 #'
 #' @param .x A data frame or data table to be rendered as a table.
-#' @param library The library to be used for rendering. Options are "flebuildTable", "gt", and "kable".
+#' @param library The library to be used for rendering. Options are "flextable", "gt", and "kable".
 #' @param format The output format. Options are "html", "pdf", and "docx".
 #' @param font.size.header The font size for the table header.
 #' @param font.size.body The font size for the table body.
@@ -27,15 +27,16 @@
 #' @examples
 #'
 #' iris |> buildTable(library="gt")
-#' iris |> buildTable(library="flebuildTable")
+#' iris |> buildTable(library="flextable")
 #' iris |> buildTable(library="kable")
 #'
 #' @importFrom data.table as.data.table data.table is.data.table
-#' @importFrom flebuildTable flebuildTable fontsize font bold align vline hline autofit width
+#' @importFrom flextable flextable fontsize font bold align vline hline autofit width
 #' @importFrom gt gt tab_options tab_style cell_text cells_column_labels cells_body cell_borders px pct
 #' @importFrom kableExtra kable kable_styling row_spec column_spec
 #' @importFrom officer fp_border
 #' @export
+#'
 buildTable <- function(.x, library = "gt", format = "html", font.size.header = 12, font.size.body = 12, font.family.header = "Arial", font.family.body = "Arial",
                         font.bold.header = FALSE, font.bold.body = FALSE, font.bold.all = NULL,
                         font.size.all = NULL, font.family.all = NULL,
@@ -69,13 +70,13 @@ buildTable <- function(.x, library = "gt", format = "html", font.size.header = 1
 
   # Use switch to call appropriate rendering function
   switch(library,
-         "flebuildTable" = .buildTable.ft(.x, format, font.size.header, font.size.body, font.family.header, font.family.body, font.bold.header, font.bold.body,
+         "flextable" = .buildTable.ft(.x, format, font.size.header, font.size.body, font.family.header, font.family.body, font.bold.header, font.bold.body,
                                        vlines.show, hlines.show, vlines.color, hlines.color, vlines.size, hlines.size, align.header, align.body),
          "gt" = .buildTable.gt(.x, format, font.size.header, font.size.body * 1.2, font.family.header, font.family.body, font.bold.header, font.bold.body,  # Adjusting font size scaling for gt
                                 vlines.show, hlines.show, vlines.color, hlines.color, vlines.size, hlines.size, align.header, align.body),
          "kable" = .buildTable.kable(.x, format, font.size.header, font.size.body, font.family.header, font.family.body, font.bold.header, font.bold.body,
                                       vlines.show, hlines.show, vlines.color, hlines.color, vlines.size, hlines.size, align.header, align.body),
-         stop("Unsupported library. Please use 'flebuildTable', 'gt', or 'kable'.")
+         stop("Unsupported library. Please use 'flextable', 'gt', or 'kable'.")
   )
 }
 
@@ -83,42 +84,42 @@ buildTable <- function(.x, library = "gt", format = "html", font.size.header = 1
                             vlines.show, hlines.show, vlines.color, hlines.color, vlines.size, hlines.size,
                             align.header, align.body) {
 
-  TABLE <- flebuildTable::flebuildTable(.x)
+  TABLE <- flextable::flextable(.x)
 
   # Font settings
-  TABLE <- flebuildTable::fontsize(TABLE, size = font.size.header, part = "header")
-  TABLE <- flebuildTable::fontsize(TABLE, size = font.size.body, part = "body")
-  TABLE <- flebuildTable::font(TABLE, fontname = font.family.header, part = "header")
-  TABLE <- flebuildTable::font(TABLE, fontname = font.family.body, part = "body")
+  TABLE <- flextable::fontsize(TABLE, size = font.size.header, part = "header")
+  TABLE <- flextable::fontsize(TABLE, size = font.size.body, part = "body")
+  TABLE <- flextable::font(TABLE, fontname = font.family.header, part = "header")
+  TABLE <- flextable::font(TABLE, fontname = font.family.body, part = "body")
 
   # Bold settings
   if (font.bold.header) {
-    TABLE <- flebuildTable::bold(TABLE, part = "header")
+    TABLE <- flextable::bold(TABLE, part = "header")
   }
   if (font.bold.body) {
-    TABLE <- flebuildTable::bold(TABLE, part = "body")
+    TABLE <- flextable::bold(TABLE, part = "body")
   }
 
   # Alignment
-  TABLE <- flebuildTable::align(TABLE, align = align.header, part = "header")
-  TABLE <- flebuildTable::align(TABLE, align = align.body, part = "body")
+  TABLE <- flextable::align(TABLE, align = align.header, part = "header")
+  TABLE <- flextable::align(TABLE, align = align.body, part = "body")
 
   # Borders
   if (vlines.show) {
-    TABLE <- flebuildTable::vline(TABLE, border = officer::fp_border(color = vlines.color, width = vlines.size), part = "all")
+    TABLE <- flextable::vline(TABLE, border = officer::fp_border(color = vlines.color, width = vlines.size), part = "all")
   }
   if (hlines.show) {
-    TABLE <- flebuildTable::hline(TABLE, border = officer::fp_border(color = hlines.color, width = hlines.size), part = "header")
+    TABLE <- flextable::hline(TABLE, border = officer::fp_border(color = hlines.color, width = hlines.size), part = "header")
   }
 
   # Adjust for PDF output
   if (format == "pdf") {
-    TABLE <- flebuildTable::autofit(TABLE)
+    TABLE <- flextable::autofit(TABLE)
   }
 
   # Adjust for DOCX output
   if (format == "docx") {
-    TABLE <- flebuildTable::width(TABLE, width = 1.0)
+    TABLE <- flextable::width(TABLE, width = 1.0)
   }
 
   return(TABLE)
