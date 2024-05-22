@@ -1,3 +1,4 @@
+
 # buildTable
 
 [![CRAN Status](https://www.r-pkg.org/badges/version/buildTable)](https://cran.r-project.org/package=buildTable)
@@ -24,26 +25,26 @@ library(buildTable)
 # Load example data
 data(iris)
 
-# Render a table using gt library for HTML format
+# Example 1: Render a table using gt library for HTML format with Arial font, bold headers, and no vertical lines
 buildTable(iris, library = "gt", format = "html", font.size.header = 14, font.size.body = 12, 
-            font.family.header = "Arial", font.family.body = "Arial", 
-            font.bold.header = TRUE, font.bold.body = TRUE, vlines.show = FALSE, 
-            hlines.show = TRUE, vlines.color = "grey", hlines.color = "grey", 
-            vlines.size = 1, hlines.size = 1, align.header = "center", align.body = "left")
+           font.family.header = "Arial", font.family.body = "Arial", 
+           font.bold.header = TRUE, font.bold.body = FALSE, vlines.show = FALSE, 
+           hlines.show = TRUE, vlines.color = "grey", hlines.color = "grey", 
+           vlines.size = 1, hlines.size = 1, align.header = "center", align.body = "left")
 
-# Render a table using flextable library for DOCX format
+# Example 2: Render a table using flextable library for DOCX format with Times New Roman font, bold body text, and vertical lines
 buildTable(iris, library = "flextable", format = "docx", font.size.header = 14, font.size.body = 12, 
-            font.family.header = "Arial", font.family.body = "Arial", 
-            font.bold.header = TRUE, font.bold.body = TRUE, vlines.show = FALSE, 
-            hlines.show = TRUE, vlines.color = "grey", hlines.color = "grey", 
-            vlines.size = 1, hlines.size = 1, align.header = "center", align.body = "left")
+           font.family.header = "Times New Roman", font.family.body = "Times New Roman", 
+           font.bold.header = FALSE, font.bold.body = TRUE, vlines.show = TRUE, 
+           hlines.show = TRUE, vlines.color = "black", hlines.color = "black", 
+           vlines.size = 1, hlines.size = 1, align.header = "left", align.body = "right")
 
-# Render a table using kable library for PDF format
+# Example 3: Render a table using kable library for PDF format with Courier New font, all text bold, and horizontal lines only in the header
 buildTable(iris, library = "kable", format = "pdf", font.size.header = 14, font.size.body = 12, 
-            font.family.header = "Arial", font.family.body = "Arial", 
-            font.bold.header = TRUE, font.bold.body = TRUE, vlines.show = FALSE, 
-            hlines.show = TRUE, vlines.color = "grey", hlines.color = "grey", 
-            vlines.size = 1, hlines.size = 1, align.header = "center", align.body = "left")
+           font.family.header = "Courier New", font.family.body = "Courier New", 
+           font.bold.header = TRUE, font.bold.body = TRUE, vlines.show = FALSE, 
+           hlines.show = TRUE, vlines.color = "grey", hlines.color = "grey", 
+           vlines.size = 1, hlines.size = 1, align.header = "center", align.body = "left")
 ```
 
 ## Parameters
@@ -75,7 +76,7 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 
 ## License
 
-This package is provided under the MIT License. See the LICENSE file for more details.
+This package is provided under the GPL-3.0 License. See the LICENSE file for more details.
 
 ## Author
 
